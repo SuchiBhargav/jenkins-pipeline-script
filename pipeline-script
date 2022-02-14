@@ -1,0 +1,105 @@
+
+/*sections are pipeline,stages,steps */
+/* two way of pipeline creation-scripted, declarative */
+/*echo stmt are declarative */
+/*1 section have multiple declarative */
+
+pipeline{
+   agent any
+   Environment{
+       name='suchi'   /*global variable available to all stages */
+   }
+   parameters{
+       string(name:'person',defaultValue:suchi, description:"admin of this system")  /*to take input from user */
+       booleanParam(name:'isMale',defaultValue:true, description:"")
+       choice(name='City',choices:['jaipur','mumbai','pune'],description:"")
+   }
+    stages{
+        stage("build"){
+            steps{
+                echo "========building========"
+                sh "pwd"
+                echo "please wait"
+                 sh 'echo "${person}"'
+                
+            }
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
+                }
+            }
+        }
+
+        stage("test"){
+             Environment{
+       user='suchuu'   /*local variable available in this stage only */
+   }
+            steps{
+                 sh 'echo "${user}"'
+                echo "========Testing========"
+                /*for parallel execution of code put it between sh ... ??????? ... */
+                sh ...
+                ls
+                pwd
+                date 
+                cal 2022
+                ...
+            }
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo1 "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
+                }
+            }
+        }
+
+        stage("Enviromental variable"){
+            input{                                 /*for manual execution of this stage after taking permission from user */
+                message "should we continue?"
+                ok "yes we should"
+            }
+            steps{
+                echo "========deploying....========"
+                sh 'echo "${BUILD_ID}"'
+                sh 'echo "${name}"'
+                sh 'echo "${user}"'
+                
+
+            }
+            post{
+                always{
+                    echo "========always========"
+                }
+                }
+                success{
+                    echo "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
+                }
+            }
+            
+        }
+    }
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
+        }
+    }
