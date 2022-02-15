@@ -18,10 +18,17 @@ pipeline {
       }
     }
 
-    stage('') {
+    stage('error') {
       steps {
         sh '''ls
 echo "hello"'''
+      }
+    }
+
+    stage('deploy') {
+      steps {
+        sh 'echo "deploying"'
+        sleep 3
       }
     }
 
