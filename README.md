@@ -1,1 +1,1 @@
-# jenkins-pipeline-scriptss
+# jenkins-pipeline-scripts
