@@ -2,8 +2,26 @@ pipeline {
   agent any
   stages {
     stage('build') {
+      parallel {
+        stage('build') {
+          steps {
+            sh 'pwd'
+          }
+        }
+
+        stage('print') {
+          steps {
+            echo 'hello'
+          }
+        }
+
+      }
+    }
+
+    stage('') {
       steps {
-        sh 'pwd'
+        sh '''ls
+echo "hello"'''
       }
     }
 
